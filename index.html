@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Contacts</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <!-- <link rel="stylesheet" href="assets/css/font-awesome.css"> -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+
+
+</head>
+
+<body>
+    <header id="header">
+        <div class="header__navigation">
+            <nav class="humberger-menu">
+                <div class=""><i class="uil uil-bars icone"></i></div>
+            </nav>
+            <div class="logo">
+                <img src="assets/img/logo.png" alt="icone google contact">
+                                <p>Contacts</p>
+            </div>
+        </div>
+        <div class="header__searchBar">
+            <div class="searchBar">
+                <input type="text" placeholder="Rechercher" id="search">
+                                    <button type="submit"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </header>
+    <section class="global">
+        <div class="menu-bar">
+            <div class="elements">
+                <div class="btn-creer">
+                    <button class="btn-popover" ><a href="#" class="active linkPage" data-page="page2"><i class="fa fa-plus"></i> <span>Créer un contact</span></a></button>
+                    <div class="popover">
+                        <a href="#" class="active linkPage" data-page="page2"><i class="fa fa-user"></i> Créer un contact</a>
+                        <a href="" class=""><i class="fa fa-users"></i> Créer plusieurs contacts</a>
+                    </div>
+                </div>
+
+                <div class="elements-link">
+                    <a href="#" class=" linkPage" data-page="page1"><span class="contact-btn"><i class="fa fa-user"></i> Contacts
+                        </span><span id="contactCount">0</span></a>
+                </div>
+                <div class="elements-link">
+                    <a href="#" class=""><span><i class="fa fa-history"></i> Fréquent </span><span>10</span></a>
+                </div>
+                <div class="elements-title" >
+                    <p>Libellé <i class="fa fa-plus" id="creationLibelle"></i></p>
+                </div>
+                <div class="elements-link" id="affichageLibelle">
+                    <a href="" class=""><span><i class="uil uil-label"></i> Amis </span><span>10</span></a>
+                </div>
+            </div>
+        </div>
+        <!-- Modal -->
+<!-- Modal -->
+<div class="modal fade" id="newLabelModal" tabindex="-1" aria-labelledby="newLabelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="newLabelModalLabel">Ajouter un nouveau libellé</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="text" id="newLabelInput" class="form-control" placeholder="Nouveau Label">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-primary" id="saveNewLabelBtn">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Fenêtre modale pour modifier le libellé -->
+<div class="modal fade" id="editLabelModal" tabindex="-1" aria-labelledby="editLabelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editLabelModalLabel">Modifier le Libellé</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <label for="editLabelInput">Nouveau Libellé:</label>
+                <input type="text" id="editLabelInput" class="form-control" placeholder="Nouveau Libellé">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-primary" id="saveEditLabelBtn">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+        <main class="principale"id="content">
+            
+        </main>
+    </section>
+
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/bootstrap.js"></script>
+</body>
+
+</html>

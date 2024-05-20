@@ -1,0 +1,183 @@
+
+    <div class="addContact page" id="page2">
+        <form id="contactForm">
+        <div class="addContact__header">
+            <div class="icone-back">
+                <span><i class="fa fa-arrow-left"></i></span>
+            </div>
+            <div class="btn-save">
+                <button class="saveContactBtn" type="submit">Enregistrer</button>
+            </div>
+        </div>
+        <div class="addContact__body">
+            <div class="body-contact__img">
+                <img src="assets/img/silhouette.png" alt="" class="img-addC">
+                <div><span class="img-ajout"><i class="fa fa-plus"></i></span></div>
+            </div>
+            <div class="body-contact__libelle">
+                <button class="btn-libelle"><i class="fa fa-plus"></i> Libellé</button>
+                <div class="popover">
+                    <a href="" class=""><span><i class="uil uil-label"></i> Amis </span><span>5</span></a>
+                    <a href="" class=""><span><i class="uil uil-label"></i> Frère </span><span>6</span></a>
+                    <a href="" class=""><span><i class="uil uil-label"></i> Bureau </span><span>7</span></a>
+                </div>
+            </div>
+
+            <div class="body-contact__libelle">
+                <button class="btn-libelle"><i class="fa fa-plus"></i> Libellé</button>
+            </div>
+            <div class="body-contact__form">
+
+                    <div class="form-group">
+                        <label for="firstName">Prénom:</label>
+                        <input type="text" id="firstName" class="form-control" placeholder="Prénom">
+                    </div>  
+                    <div class="form-group">
+                        <label for="lastName">Nom:</label>
+                        <input type="text" id="lastName" class="form-control" placeholder="Nom">
+                    </div> 
+                    <div class="form-group">
+                        <label for="company">Entreprise:</label>
+                        <input type="text" id="company" class="form-control" placeholder="Entreprise">
+                    </div> 
+                    <div class="form-group">
+                        <label for="jobTitle">Fonction:</label>
+                        <input type="text" id="jobTitle" class="form-control" placeholder="Fonction">
+                    </div> 
+                    <div class="form-group">
+                        <label for="email">Adresse e-mail:</label>
+                        <input type="email" id="email" class="form-control" placeholder="Adresse e-mail">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Téléphone:</label>
+                        <input type="text" id="phone" class="form-control" placeholder="Téléphone">
+                    </div>
+               
+            </div>
+        </div>
+    </form>
+    </div>
+
+    <div class="contactInfos pa" id="">
+        <div class="contact-tableau">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Titre</th>
+                        <th>Email</th>
+                        <th>Numéro de téléphone</th>
+                        <th>Fonction et entreprise</th>
+                        <th>Libellé</th>
+                    </tr>
+                </thead>
+                <tbody id="corps-tableau">
+                    <div class="contactTable">
+
+                    </div>
+                </tbody>
+            </table>
+        </div>
+    </div>
+<script>
+
+//Création de contact
+// Tableau pour stocker les contacts
+let contacts = [];
+
+// Fonction pour afficher la liste des contacts
+function displayContacts() {
+    const content = document.getElementById('content');
+    content.innerHTML = '';
+
+    const contactsTable = document.createElement('table');
+    contactsTable.innerHTML = `
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Email</th>
+                <th>Numéro de téléphone</th>
+                <th>Fonction et entreprise</th>
+                <th>Libellé</th>
+            </tr>
+        </thead>
+        <tbody id="contactsTableBody"></tbody>
+    `;
+    content.appendChild(contactsTable);
+
+    const contactsTableBody = document.getElementById('contactsTableBody');
+    contacts.forEach(contact => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td>${contact.firstName} ${contact.lastName}</td>
+            <td>${contact.email}</td>
+            <td>${contact.phone}</td>
+            <td>${contact.jobTitle} at ${contact.company}</td>
+            <td>${contact.label}</td>
+        `;
+        contactsTableBody.appendChild(row);
+    });
+
+    const addButton = document.createElement('button');
+    addButton.textContent = 'Ajouter un contact';
+    addButton.addEventListener('click', () => displayAddContactForm());
+    content.appendChild(addButton);
+}
+
+// Fonction pour afficher le formulaire d'ajout de contact
+function displayAddContactForm() {
+    const content = document.getElementById('content');
+    content.innerHTML = '';
+
+    const addContactForm = document.createElement('form');
+    addContactForm.innerHTML = `
+        <label for="firstName">Prénom:</label>
+        <input type="text" id="firstName" placeholder="Prénom"><br>
+        <label for="lastName">Nom:</label>
+        <input type="text" id="lastName" placeholder="Nom"><br>
+        <label for="company">Entreprise:</label>
+        <input type="text" id="company" placeholder="Entreprise"><br>
+        <label for="jobTitle">Fonction:</label>
+        <input type="text" id="jobTitle" placeholder="Fonction"><br>
+        <label for="email">Adresse e-mail:</label>
+        <input type="email" id="email" placeholder="Adresse e-mail"><br>
+        <label for="phone">Téléphone:</label>
+        <input type="text" id="phone" placeholder="Téléphone"><br>
+        <label for="label">Libellé:</label>
+        <input type="text" id="label" placeholder="Libellé"><br>
+        <button id="saveContactBtn">Enregistrer</button>
+    `;
+    content.appendChild(addContactForm);
+
+    const saveContactBtn = document.getElementById('saveContactBtn');
+    saveContactBtn.addEventListener('click', () => saveContact());
+}
+
+// Fonction pour enregistrer un nouveau contact
+function saveContact() {
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const company = document.getElementById('company').value;
+    const jobTitle = document.getElementById('jobTitle').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const label = document.getElementById('label').value;
+
+    const newContact = {
+        firstName,
+        lastName,
+        company,
+        jobTitle,
+        email,
+        phone,
+        label
+    };
+
+    contacts.push(newContact);
+    displayContacts();
+}
+
+// Au chargement de la page, afficher la liste des contacts
+displayContacts();
+
+</script>
+    
