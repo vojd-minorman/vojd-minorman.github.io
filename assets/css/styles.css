@@ -10,13 +10,6 @@
     --white-color : #fff;
 }
 
-.material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
-}
 body{
     margin: 0;
     color: var(--text-color);
@@ -37,7 +30,7 @@ body{
     justify-content: flex-start;
     align-items: center;
     padding: 0px 30px 0px 20px;
-    /* min-width: 268px; */
+    min-width: 268px;
 
 } 
 .header__navigation .logo{
@@ -67,7 +60,7 @@ body{
 }
 #header .header__searchBar .searchBar{
     position: relative;
-    /* display: flex; */
+    display: flex;
     height: 48px;
     width: 600px;
 
@@ -138,6 +131,117 @@ body{
     display: none;
     opacity: 0;
 }
+.menu-bar .logo{
+    display: none;
+}
+@media screen and (max-width : 576px) {
+    .menu-bar{
+    display: none;
+    min-width: 0px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    }
+    .menu-bar .elements{
+        display: none;
+        opacity: 0;
+    }
+    .menu-bar.close{
+    display: block;
+    z-index: 100;
+    padding-left: 20px;
+    padding-right: 10px;
+    width: 70%;
+    height: 100vh;
+    transition: all 0.3s ease-in-out;
+    left: 0;
+    margin-left: 20px;
+    position: absolute;
+    background-color: var(--white-color);
+    top: 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.3);
+    }
+    
+    .menu-bar.close .elements{
+        display: block;
+        opacity: 1;
+    }
+    .menu-bar .logo{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        font-size: 22px;
+        padding-left: 20px;
+    }
+    .menu-bar .logo img{
+        width: 40px;
+        height: 40px;
+        padding-right: 4px;
+    }
+    #header .header__searchBar .searchBar{
+        position: relative;
+        height: 48px;
+        width: 20px;
+        background-color: transparent;
+        box-shadow: none;
+    } 
+    #header .header__searchBar button{
+        background-color: var(--bg-color) !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+    .searchBar input{
+        display: none;
+    }
+} 
+
+@media screen and (max-width : 767px) {
+    .menu-bar{
+    display: none;
+    min-width: 0px;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+    }
+    .menu-bar .elements{
+        display: none;
+        opacity: 0;
+    }
+    .menu-bar.close{
+    z-index: 100;
+    display: block;
+    padding-left: 20px;
+    padding-right: 10px;
+    width: 50%;
+    height: 100vh;
+    transition: all 0.3s ease-in-out;
+    left: 0;
+    margin-left: 20px;
+    position: absolute;
+    background-color: var(--white-color);
+    top: 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.3);
+    }
+    
+    .menu-bar.close .elements{
+        display: block;
+        opacity: 1;
+    }
+    .menu-bar .logo{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        font-size: 22px;
+        padding-left: 20px;
+    }
+    .menu-bar .logo img{
+        width: 40px;
+        height: 40px;
+        padding-right: 4px;
+    }
+
+
+} 
 .elements .btn-creer{
     margin-bottom: 15px;
 }
@@ -180,7 +284,7 @@ body{
     font-size: 14px;
     padding: 10px;
     transition: all 0.3s ease;
-    width: 90%;
+    width: 100%;
 }
 .elements .popover a:hover{
     background-color: var(--hover-color);
@@ -265,6 +369,29 @@ body{
     text-align: left;
 }
 
+
+td:nth-child(1) {
+    min-width: 20%; 
+}
+
+td:nth-child(2) {
+    min-width: 20%; 
+}
+
+td:nth-child(3) {
+    min-width: 20%; 
+}
+
+td:nth-child(4) {
+    min-width: 20%;
+}
+
+td:nth-child(5) {
+    min-width: 10%; 
+}
+th:nth-child(6) {
+    min-width: 10%; 
+}
 .principale .contactInfos th {
     border-bottom: 1px solid #ddd;
     font-weight: 400;
@@ -382,4 +509,17 @@ body{
 
 .contact-row:hover .actions {
     display: inline-block;
+}
+.btn-supMod{
+    background-color: transparent;
+    border: none;
+}
+.hover-row {
+    background-color: #f0f0f0; /* La couleur de fond souhaitée */
+}
+/* Masquer les en-têtes de colonne spécifiques sur les petits écrans */
+@media screen and (max-width: 768px) {
+    .hidden-on-small-screen {
+        display: none;
+    }
 }

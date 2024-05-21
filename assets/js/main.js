@@ -2,20 +2,27 @@
 const body = document.querySelector('body');
 const menubar = body.querySelector('.menu-bar');
 const toggle = body.querySelector('.icone');
-const btnpopover = body.querySelector('.btn-popover');
-const popover = body.querySelector('.popover');
 
 function toggleMenubar() {
     menubar.classList.toggle('close');
 }
 
-toggle.addEventListener("click", toggleMenubar);
+toggle.addEventListener("click", (e) => {
+    e.stopPropagation(); // Empêche le clic sur l'icône de se propager et de fermer immédiatement le menu
+    toggleMenubar();
+});
 
-function togglePopover() {
-    popover.classList.toggle('show');
-}
+// Fermer le menu en cliquant en dehors
+document.addEventListener("click", (e) => {
+    if (!menubar.contains(e.target) && !toggle.contains(e.target)) {
+        menubar.classList.remove('close');
+    }
+});
 
-btnpopover.addEventListener("click", togglePopover);
+// Empêche la fermeture du menu lorsque l'on clique à l'intérieur de celui-ci
+menubar.addEventListener("click", (e) => {
+    e.stopPropagation();
+});
 
 
 
@@ -67,7 +74,7 @@ function saveContact(contact = null, index = null, mode = 'ajout') {
 
     // Actualiser l'affichage des contacts
     displayContacts();
-    
+
     // Mettre à jour le nombre de contacts
     updateContactCount();
 
@@ -112,7 +119,6 @@ function initializeLabelPopover(bodyContactLibelleDiv, btnLibelle) {
 }
 
 
-// Fonction pour afficher la liste des contacts
 function displayContacts() {
     const content = document.querySelector('.principale');
     content.innerHTML = `
@@ -133,6 +139,7 @@ function displayContacts() {
     const contactsTable = document.createElement('table');
     contactsTable.style.width = '100%';
     contactsTable.style.borderCollapse = 'collapse';
+    contactsTable.style.tableLayout = 'fixed';
     divTables.appendChild(contactsTable);
 
     const contactsTableHead = document.createElement('thead');
@@ -141,9 +148,9 @@ function displayContacts() {
     const headRow = document.createElement('tr');
     contactsTableHead.appendChild(headRow);
 
-    const headings = ['Titre', 'Email', 'Numéro de téléphone', 'Fonction et entreprise', 'Libellé', 'Actions'];
+    const headings = ['Titre', 'Email', 'Numéro de téléphone', 'Fonction et entreprise', 'Libellé', ''];
 
-    headings.forEach(headingText => {
+    headings.forEach((headingText, index) => {
         const th = document.createElement('th');
         th.textContent = headingText;
         th.style.padding = '8px';
@@ -151,6 +158,12 @@ function displayContacts() {
         th.style.borderBottom = '1px solid #ddd';
         th.style.fontWeight = '400';
         th.style.fontSize = '0.9rem';
+        th.style.width = '20%'; // Fixer la largeur des colonnes du tableau
+        
+        if (window.innerWidth <= 768 && index !== 0) {
+            th.classList.add('hidden-on-small-screen'); // Ajouter la classe pour masquer sur les petits écrans
+        }
+
         headRow.appendChild(th);
     });
 
@@ -172,6 +185,10 @@ function displayContacts() {
             contact.label
         ];
 
+        if (window.innerWidth <= 768) {
+            rowData.splice(1); // Ne garder que le titre sur les petits écrans
+        }
+
         rowData.forEach(text => {
             const cell = document.createElement('td');
             cell.textContent = text;
@@ -187,7 +204,8 @@ function displayContacts() {
         row.appendChild(actionsCell);
 
         const editButton = document.createElement('button');
-        editButton.textContent = 'Modifier';
+        editButton.classList.add('btn-supMod');
+        editButton.innerHTML = `<i class="uil uil-pen"></i>`;
         editButton.addEventListener('click', (e) => {
             e.stopPropagation();
             displayAddContactForm(contact, index, 'modification');
@@ -195,22 +213,59 @@ function displayContacts() {
         actionsCell.appendChild(editButton);
 
         const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Supprimer';
+        deleteButton.classList.add('btn-supMod');
+        deleteButton.innerHTML = `<i class="uil uil-trash"></i>`;
         deleteButton.addEventListener('click', (e) => {
             e.stopPropagation();
             deleteContact(index);
         });
         actionsCell.appendChild(deleteButton);
+
+        // Afficher les boutons uniquement lorsque la souris est sur la ligne
+        row.addEventListener('mouseenter', () => {
+            row.classList.add('hover-row');
+        });
+
+        row.addEventListener('mouseleave', () => {
+            row.classList.remove('hover-row');
+        });
+
+        // Ajouter un gestionnaire d'événements pour afficher les détails du contact sur clic
+        if (window.innerWidth <= 768) {
+            row.addEventListener('click', () => {
+                displayContactDetails(contact);
+            });
+        }
+        
     });
 
-    const addButton = document.createElement('button');
-    addButton.textContent = 'Ajouter un contact';
-    addButton.addEventListener('click', () => displayAddContactForm());
-    content.appendChild(addButton);
+    // Réattacher les événements après avoir mis à jour le DOM
+    attachLinkPageEventHandlers();
+}
+
+
+function displayContactDetails(contact) {
+    const detailsHTML = `
+        <div class="contact-details">
+            <h2>Détails du Contact</h2>
+            <p><strong>Prénom:</strong> ${contact.firstName}</p>
+            <p><strong>Nom:</strong> ${contact.lastName}</p>
+            <p><strong>Email:</strong> ${contact.email}</p>
+            <p><strong>Téléphone:</strong> ${contact.phone}</p>
+            <p><strong>Entreprise:</strong> ${contact.company}</p>
+            <p><strong>Fonction:</strong> ${contact.jobTitle}</p>
+            <p><strong>Label:</strong> ${contact.label}</p>
+            <button class="btn btn-secondary" onclick="displayContacts()">Retour à la liste</button>
+        </div>
+    `;
+
+    const content = document.querySelector('.principale');
+    content.innerHTML = detailsHTML;
 }
 
 // Appel initial pour afficher les contacts
 displayContacts();
+attachLinkPageEventHandlers();
 
 
 // Fonction pour afficher le formulaire d'ajout/modification de contact
@@ -235,9 +290,16 @@ function displayAddContactForm(contact = null, index = null, mode = 'ajout') {
     iconeBackDiv.classList.add('icone-back');
     addContactHeader.appendChild(iconeBackDiv);
 
+    // Ajouter un bouton de retour avec l'icône
     const backIcon = document.createElement('span');
-    backIcon.innerHTML = '<i class="fa fa-arrow-left"></i>';
+    // backIcon.classList.add('linkPage');
+    // backIcon.setAttribute('data-page', 'page1');
+    backIcon.innerHTML = '<i class="fa fa-arrow-left linkPage" data-page="page1"></i>';
     iconeBackDiv.appendChild(backIcon);
+    // content.prepend(iconeBackDiv);
+
+    // Réattacher les événements après avoir mis à jour le DOM
+    attachLinkPageEventHandlers();
 
     const btnSaveDiv = document.createElement('div');
     btnSaveDiv.classList.add('btn-save');
@@ -283,7 +345,7 @@ function displayAddContactForm(contact = null, index = null, mode = 'ajout') {
     });
 
 
-     initializeLabelPopover(bodyContactLibelleDiv, btnLibelle);
+    initializeLabelPopover(bodyContactLibelleDiv, btnLibelle);
 
     const bodyContactFormDiv = document.createElement('div');
     bodyContactFormDiv.classList.add('body-contact__form');
@@ -397,25 +459,27 @@ function updateLabelsDisplay() {
 
         // Créer le bouton "Modifier" pour chaque libellé
         const editBtn = document.createElement('button');
-        editBtn.textContent = 'Modifier';
-        editBtn.classList.add('edit-btn');
+        editBtn.classList.add('btn-supMod', 'edit-btn')
+        editBtn.innerHTML = `<i class="uil uil-pen"></i>`;
         labelContainer.appendChild(editBtn);
 
         // Créer le bouton "Supprimer" pour chaque libellé
         const deleteBtn = document.createElement('button');
-        deleteBtn.textContent = 'Supprimer';
-        deleteBtn.classList.add('delete-btn');
+        deleteBtn.classList.add('btn-supMod', 'delete-btn')
+        deleteBtn.innerHTML = `<i class="uil uil-trash"></i>`;;
         labelContainer.appendChild(deleteBtn);
 
         // Ajouter des gestionnaires d'événements pour afficher/masquer les boutons "Modifier" et "Supprimer"
-        labelContainer.addEventListener('mouseenter', () => {
+        function affichageBtn() {
             editBtn.style.display = 'inline-block';
             deleteBtn.style.display = 'inline-block';
-        });
-        labelContainer.addEventListener('mouseleave', () => {
+        }
+        function masquageBtn() {
             editBtn.style.display = 'none';
             deleteBtn.style.display = 'none';
-        });
+        }
+        labelContainer.addEventListener('mouseenter', affichageBtn)
+        labelContainer.addEventListener('mouseleave', masquageBtn)
 
         // Ajouter un gestionnaire d'événement au bouton "Modifier" pour ouvrir la fenêtre modale de modification
         editBtn.addEventListener('click', (event) => {
@@ -502,25 +566,27 @@ document.getElementById('creationLibelle').addEventListener('click', showNewLabe
 updateLabelsDisplay();
 
 
-// Charger dynamiquement le contenu approprié lorsqu'un lien est cliqué
-document.querySelectorAll('.linkPage').forEach(link => {
-    link.addEventListener('click', function (event) {
-        event.preventDefault();
-        const page = this.getAttribute('data-page');
-        switch (page) {
-            case 'page1':
-                displayContacts();
-                break;
-            case 'page2':
-                displayAddContactForm();
-                break;
-            // Ajoutez d'autres cas pour d'autres pages si nécessaire
-            default:
-                displayContacts(); // Par défaut, afficher la liste des contacts
-        }
+// Fonction pour attacher les gestionnaires d'événements aux liens dynamiques
+function attachLinkPageEventHandlers() {
+    document.querySelectorAll('.linkPage').forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            const page = this.getAttribute('data-page');
+            switch (page) {
+                case 'page1':
+                    displayContacts();
+                    break;
+                case 'page2':
+                    displayAddContactForm();
+                    break;
+                // Ajoutez d'autres cas pour d'autres pages si nécessaire
+                default:
+                    displayContacts(); // Par défaut, afficher la liste des contacts
+            }
+        });
     });
-});
+}
 
-
-// Au chargement de la page, afficher la liste des contacts par défaut
+// Appel initial pour afficher les contacts et attacher les gestionnaires d'événements
 displayContacts();
+attachLinkPageEventHandlers();

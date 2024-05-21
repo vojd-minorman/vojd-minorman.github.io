@@ -22,35 +22,38 @@
             </nav>
             <div class="logo">
                 <img src="assets/img/logo.png" alt="icone google contact">
-                                <p>Bonjour</p>
+                <p>Contacts</p>
             </div>
         </div>
         <div class="header__searchBar">
             <div class="searchBar">
                 <input type="text" placeholder="Rechercher" id="search">
-                                    <button type="submit"><i class="fa fa-search"></i></button>
+                <button type="submit"><i class="fa fa-search"></i></button>
             </div>
         </div>
     </header>
     <section class="global">
         <div class="menu-bar">
             <div class="elements">
+                <div class="logo">
+                    <img src="assets/img/logo.png" alt="icone google contact">
+                    <p>Contacts</p>
+                </div>
                 <div class="btn-creer">
-                    <button class="btn-popover" ><a href="#" class="active linkPage" data-page="page2"><i class="fa fa-plus"></i> <span>Créer un contact</span></a></button>
-                    <div class="popover">
-                        <a href="#" class="active linkPage" data-page="page2"><i class="fa fa-user"></i> Créer un contact</a>
-                        <a href="" class=""><i class="fa fa-users"></i> Créer plusieurs contacts</a>
-                    </div>
+                    <button class="btn-popover active linkPage" data-page="page2"><i
+                                class="fa fa-plus"></i> <span>Créer un contact</span></button>
+                    
                 </div>
 
                 <div class="elements-link">
-                    <a href="#" class=" linkPage" data-page="page1"><span class="contact-btn"><i class="fa fa-user"></i> Contacts
+                    <a href="#" class="linkPage" data-page="page1"><span class="contact-btn"><i class="fa fa-user"></i>
+                            Contacts
                         </span><span id="contactCount">0</span></a>
                 </div>
                 <div class="elements-link">
                     <a href="#" class=""><span><i class="fa fa-history"></i> Fréquent </span><span>10</span></a>
                 </div>
-                <div class="elements-title" >
+                <div class="elements-title">
                     <p>Libellé <i class="fa fa-plus" id="creationLibelle"></i></p>
                 </div>
                 <div class="elements-link" id="affichageLibelle">
@@ -58,9 +61,15 @@
                 </div>
             </div>
         </div>
-        <!-- Modal -->
-<!-- Modal -->
-<div class="modal fade" id="newLabelModal" tabindex="-1" aria-labelledby="newLabelModalLabel" aria-hidden="true">
+
+
+        <main class="principale" id="content">
+
+        </main>
+    </section>
+    
+    <div class="modal fade" id="newLabelModal" tabindex="-1" aria-labelledby="newLabelModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -79,7 +88,8 @@
 </div>
 
 <!-- Fenêtre modale pour modifier le libellé -->
-<div class="modal fade" id="editLabelModal" tabindex="-1" aria-labelledby="editLabelModalLabel" aria-hidden="true">
+<div class="modal fade" id="editLabelModal" tabindex="-1" aria-labelledby="editLabelModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -99,11 +109,6 @@
 </div>
 
 
-
-        <main class="principale"id="content">
-            
-        </main>
-    </section>
 
     <script src="assets/js/main.js"></script>
     <script src="assets/js/bootstrap.js"></script>
